@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="auto">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>📘 Visible Gains — Jerry’s No‑BS Lean-Muscle Guide</title>
+<style>
+  /* ===== iOS-inspired Color Tokens ===== */
+  :root {
+    /* Light (iOS-like) */
+    --bg: #ffffff;
+    --panel: #f2f2f7;     /* secondary system background */
+    --panel2: #ffffff;    /* grouped background */
+    --ink: #000000;       /* label primary */
+    --muted: #3a3a3c;     /* secondary label */
+    --line: #c6c6c8;      /* separator */
+    --tint: #007aff;      /* iOS system blue */
+    --ok: #34c759;
+    --warn: #ffcc00;
+    --bad: #ff3b30;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      /* Dark (iOS-like) */
+      --bg: #000000;
+      --panel: #1c1c1e;    /* secondary system background dark */
+      --panel2: #2c2c2e;   /* tertiary */
+      --ink: #f2f2f7;
+      --muted: #8e8e93;
+      --line: #3a3a3c;
+      --tint: #0a84ff;     /* iOS system blue dark */
+      --ok: #30d158;
+      --warn: #ffd60a;
+      --bad: #ff453a;
+    }
+  }
+
+  /* Manual theme overrides via [data-theme] */
+  [data-theme="light"] :root {
+    --bg: #ffffff; --panel:#f2f2f7; --panel2:#ffffff; --ink:#000; --muted:#3a3a3c;
+    --line:#c6c6c8; --tint:#007aff; --ok:#34c759; --warn:#ffcc00; --bad:#ff3b30;
+  }
+  [data-theme="dark"] :root {
+    --bg:#000; --panel:#1c1c1e; --panel2:#2c2c2e; --ink:#f2f2f7; --muted:#8e8e93;
+    --line:#3a3a3c; --tint:#0a84ff; --ok:#30d158; --warn:#ffd60a; --bad:#ff453a;
+  }
+
+  * { box-sizing: border-box }
+  html, body { height: 100% }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 15px/1.65 "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+    -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    transition: background-color .25s ease, color .25s ease;
+  }
+
+  /* Layout */
+  .wrap { display: grid; grid-template-columns: 280px 1fr; min-height: 100vh }
+  nav {
+    background: var(--panel);
+    border-right: 1px solid var(--line);
+    padding: 22px 16px;
+    position: sticky; top: 0; height: 100vh; overflow: auto;
+  }
+  main { padding: 34px 6vw 80px; max-width: 1100px }
+
+  /* Brand + Controls */
+  .brand { display:flex; gap:10px; align-items:center; margin-bottom:8px }
+  .dot { width:10px; height:10px; border-radius:50%; background: var(--tint) }
+  .brand h1 { margin:0; font-size:16px; letter-spacing:.2px }
+  .desc { color: var(--muted); font-size:12px; margin-bottom:12px }
+  .controls { display:flex; gap:8px; margin:8px 0 12px }
+  .btn {
+    padding: 8px 12px; border-radius: 10px; border: 1px solid var(--line);
+    background: var(--panel2); color: var(--ink); cursor: pointer; font-size: 13px;
+  }
+  .btn:active { transform: scale(.98) }
+  .seg { display:inline-flex; border:1px solid var(--line); border-radius:12px; overflow:hidden }
+  .seg button { padding:8px 10px; border:0; background:var(--panel2); color:var(--muted); cursor:pointer }
+  .seg button.active { background: var(--tint); color:#fff }
+
+  /* TOC */
+  .group { margin:10px 0 8px; color: var(--ink); font-weight:700; font-size:12px; letter-spacing:.3px; text-transform:uppercase; opacity:.9 }
+  .toc { list-style:none; margin:0; padding:0 }
+  .toc a { display:block; color: var(--muted); text-decoration:none; padding:10px 12px; border-radius:10px }
+  .toc a:hover { background: color-mix(in oklab, var(--tint) 12%, var(--panel)); color:#fff }
+  .toc a.active { background: color-mix(in oklab, var(--tint) 18%, var(--panel)); color:#fff; border:1px solid var(--line) }
+
+  /* Content */
+  h1 { font-size:28px; margin:0 0 6px }
+  h2 { font-size:22px; margin:26px 0 10px }
+  h3 { font-size:18px; margin:18px 0 6px }
+  p.lead { color: var(--muted); max-width: 70ch }
+  .pill { display:inline-block; padding:4px 10px; border-radius:999px; border:1px solid var(--line); font-size:12px }
+  .callout {
+    border:1px solid var(--line); background: var(--panel2);
+    border-left:4px solid var(--tint); padding:12px 14px; border-radius:12px; margin:12px 0
+  }
+  .callout.ok { border-left-color: var(--ok) }
+  .callout.warn { border-left-color: var(--warn) }
+  .grid { display:grid; gap:14px }
+  .grid.two { grid-template-columns: repeat(auto-fit, minmax(260px,1fr)) }
+  .card { border:1px solid var(--line); background: var(--panel2); border-radius:12px; padding:14px }
+  .muted { color: var(--muted) }
+  ul,ol { margin:8px 0 16px }
+  li+li { margin-top:6px }
+  .small { font-size:12px; color: var(--muted) }
+
+  /* Tables (responsive) */
+  .table-wrap { overflow:auto; border-radius:12px; border:1px solid var(--line); background: var(--panel2) }
+  table { width:100%; min-width: 560px; border-collapse:separate; border-spacing:0; overflow:hidden }
+  th, td { padding:12px 14px; text-align:left; vertical-align:top }
+  thead th { background: var(--panel); color: var(--ink); border-bottom:1px solid var(--line) }
+  tbody tr { border-top:1px solid var(--line) }
+  tbody tr:nth-child(odd) { background: color-mix(in oklab, var(--panel2) 92%, var(--bg)) }
+  tbody tr:nth-child(even) { background: color-mix(in oklab, var(--panel2) 98%, var(--bg)) }
+  td em { color: var(--muted) }
+
+  /* Code blocks */
+  pre { background: var(--panel2); border:1px solid var(--line); padding:14px; border-radius:12px; overflow:auto; position:relative }
+  code { font:13px/1.5 ui-monospace, "SFMono-Regular", Menlo, Monaco, "DejaVu Sans Mono", Consolas, "Liberation Mono", "Courier New", monospace }
+  .copy {
+    position:absolute; top:10px; right:10px; font-size:14px; padding:8px 10px; border-radius:8px;
+    color: var(--ink); border:1px solid var(--line); background: var(--panel); cursor:pointer
+  }
+
+  /* Mobile Topbar */
+  .mobile-top { display:none; position:sticky; top:0; z-index:50; background: var(--panel); border-bottom:1px solid var(--line); padding:10px 12px }
+  .mobile-top .row { display:flex; gap:10px; align-items:center; justify-content:space-between }
+  .jump { flex:1; padding:10px; border-radius:10px; background: var(--panel2); color: var(--ink); border:1px solid var(--line) }
+  .go-btn { padding:10px 12px; border-radius:10px; border:1px solid var(--line); background: var(--panel2); color: var(--ink) }
+
+  /* Responsive */
+  @media (max-width: 980px) {
+    .wrap { grid-template-columns: 1fr }
+    nav { display:none }
+    .mobile-top { display:block }
+    main { padding: 20px 5vw 64px }
+    h1 { font-size:24px }
+    h2 { font-size:20px }
+    h3 { font-size:17px }
+    body { font-size:16px }
+    .copy { top:8px; right:8px; padding:10px 12px }
+    table { min-width: 560px }
+  }
+</style>
+</head>
+<body>
+<div class="mobile-top">
+  <div class="row">
+    <strong>📘 Visible Gains</strong>
+    <select class="jump" aria-label="Jump to section">
+      <option value="#intro">Intro & Mindset</option>
+      <option value="#schedule">Schedule</option>
+      <option value="#main">Main Plan (P/P/L)</option>
+      <option value="#busy">Busy-Week Fallback</option>
+      <option value="#progression">Progression & Form</option>
+      <option value="#nutrition">Nutrition (120g)</option>
+      <option value="#trial">Trial-Day Checklist</option>
+      <option value="#etiquette">Etiquette</option>
+      <option value="#travel">Travel & Midnight</option>
+      <option value="#logs">Copy-Paste Logs</option>
+      <option value="#faq">FAQ</option>
+    </select>
+    <button class="go-btn" id="go">Go</button>
+    <div class="seg" role="group" aria-label="Theme">
+      <button class="tBtn" data-theme="light">☀️</button>
+      <button class="tBtn" data-theme="dark">🌙</button>
+      <button class="tBtn active" data-theme="auto">🅰️</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <nav>
+    <div class="brand"><span class="dot"></span><h1>Visible Gains — Jerry</h1></div>
+    <div class="desc">Lean-muscle main plan + full-body fallback • Updated August 09, 2025</div>
+    <div class="controls">
+      <div class="seg" role="group" aria-label="Theme">
+        <button class="tBtn" data-theme="light">☀️</button>
+        <button class="tBtn" data-theme="dark">🌙</button>
+        <button class="tBtn active" data-theme="auto">🅰️</button>
+      </div>
+    </div>
+
+    <div class="group">Guide</div>
+    <ul class="toc">
+      <li><a href="#intro" class="active">✨ Intro & Mindset</a></li>
+      <li><a href="#schedule">🗓️ Schedule</a></li>
+      <li><a href="#main">💪 Main Plan (P/P/L)</a></li>
+      <li><a href="#busy">🧭 Busy-Week Fallback</a></li>
+      <li><a href="#progression">📈 Progression & Form</a></li>
+      <li><a href="#nutrition">🥗 Nutrition (120g)</a></li>
+      <li><a href="#trial">🧪 Trial-Day Checklist</a></li>
+      <li><a href="#etiquette">🤝 Etiquette</a></li>
+      <li><a href="#travel">✈️ Travel & 🌙 Midnight</a></li>
+      <li><a href="#logs">📝 Copy-Paste Logs</a></li>
+      <li><a href="#faq">❓ FAQ</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section id="intro">
+      <h1>✨ No‑BS Lean-Muscle Guide</h1>
+      <p class="lead">
+        Goal: add a modest, clean layer of muscle (shoulders, chest, arms, traps) while staying lean.
+        Three focused sessions/week, mornings + weekend. Keep the <span class="pill">Full‑Body</span>
+        plan as your busy‑week backup.
+      </p>
+      <div class="callout"><strong>Core rules:</strong> Show up 3×/week 💯 · Hit ~120g protein 🥚🍗 · Add small progress weekly 📈 · Sleep 😴</div>
+    </section>
+
+    <section id="schedule">
+      <h2>🗓️ Schedule (Mornings + Weekend)</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Day</th><th>Focus</th><th>Time</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>Sat</td><td>Push — chest/shoulders/triceps</td><td>AM</td><td>Unrushed; review form 🎥 if needed</td></tr>
+            <tr><td>Sun</td><td>Pull — back/biceps/traps</td><td>AM</td><td>Film one set for self‑check 📷</td></tr>
+            <tr><td>Wed</td><td>Legs + Core (moderate)</td><td>AM</td><td>Daily cycling already helps 🚴</td></tr>
+            <tr><td>Fri (opt.)</td><td>Light full‑body or cardio/mobility</td><td>AM</td><td>Skip if tired; recovery counts 🛌</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small">Busy week? Swap to the <a href="#busy">Full‑Body Fallback</a> 2× that week.</p>
+    </section>
+
+    <section id="main">
+      <h2>💪 Main Plan — Push / Pull / Legs (8–12 weeks)</h2>
+      <div class="callout">
+        <strong>Rep zones:</strong> Compounds 8–10; accessories 10–15. Top end clean ➜ increase next time (smallest jump).
+      </div>
+
+      <h3>➡️ Push</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Exercise</th><th>Sets × Reps</th><th>Plain-English Cue</th></tr></thead>
+        <tbody>
+          <tr><td>Chest Press (barbell or machine)</td><td>3×8–10</td><td>Push straight; shoulders down & back</td></tr>
+          <tr><td>Overhead Press</td><td>3×8–10</td><td>Press up, ribs down, no lean‑back</td></tr>
+          <tr><td>Lateral Raises</td><td>3×12–15</td><td>Raise to the side; slight elbow bend</td></tr>
+          <tr><td>Triceps Pushdowns</td><td>3×10–12</td><td>Elbows by sides; lockout</td></tr>
+          <tr><td><em>Optional:</em> Incline Push‑ups</td><td>2×AMRAP</td><td>Controlled; chest touches edge</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>⬅️ Pull</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Exercise</th><th>Sets × Reps</th><th>Plain-English Cue</th></tr></thead>
+        <tbody>
+          <tr><td>Lat Pulldown</td><td>3×8–10</td><td>Bar to upper chest; no swing</td></tr>
+          <tr><td>Seated Row (cable/machine)</td><td>3×8–10</td><td>Lead with elbows; squeeze blades</td></tr>
+          <tr><td>Bicep Curls (DB or cable)</td><td>3×10–12</td><td>Elbows fixed; slow on way down</td></tr>
+          <tr><td>Dumbbell Shrugs</td><td>3×12–15</td><td>Up & slightly back; pause</td></tr>
+          <tr><td>Face Pulls</td><td>3×12–15</td><td>Rope to eyebrow level; elbows high</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>🦵 Legs + Core</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Exercise</th><th>Sets × Reps</th><th>Plain-English Cue</th></tr></thead>
+        <tbody>
+          <tr><td>Leg Press</td><td>3×10–12</td><td>Feet mid‑plate; control; no slam</td></tr>
+          <tr><td>Seated Leg Curl</td><td>3×10–12</td><td>Pull heel to butt; slow return</td></tr>
+          <tr><td>Calf Raises</td><td>3×12–15</td><td>Full stretch → tiptoe → pause</td></tr>
+          <tr><td>Plank</td><td>3×30–60s</td><td>Ribs down, glutes tight, breathe</td></tr>
+          <tr><td><em>Optional:</em> Leg Extensions</td><td>2×12</td><td>Controlled; no snap lockout</td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="callout warn"><strong>Leg volume:</strong> keep moderate; daily cycling already trains them. Aim for “solid” not “wrecked.”</div>
+    </section>
+
+    <section id="busy">
+      <h2>🧭 Busy‑Week Fallback — Full‑Body (2×/week)</h2>
+      <p class="muted">Use during exams, deadlines, travel. 45–60 minutes; keeps the chain unbroken.</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th>#</th><th>Exercise</th><th>Reps</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Overhead Press</td><td>3×8–12</td></tr>
+          <tr><td>2</td><td>Chest Press (barbell/DB)</td><td>3×8–12</td></tr>
+          <tr><td>3</td><td>Lat Pulldown or Pull‑ups</td><td>3×8–12</td></tr>
+          <tr><td>4</td><td>Lateral Raises</td><td>3×12–15</td></tr>
+          <tr><td>5</td><td>Bicep Curls</td><td>3×10–12</td></tr>
+          <tr><td>6</td><td>Triceps Pushdowns</td><td>3×10–12</td></tr>
+          <tr><td>7</td><td>Leg Press</td><td>3×10–12</td></tr>
+          <tr><td>8</td><td>Seated Leg Curl</td><td>3×10–12</td></tr>
+          <tr><td>9</td><td>Face Pulls (optional)</td><td>2×12–15</td></tr>
+        </tbody>
+      </table></div>
+      <div class="callout"><strong>Format:</strong> Move briskly; 60–90s rests. Two decent sessions beat zero perfect ones.</div>
+    </section>
+
+    <section id="progression">
+      <h2>📈 Progression & Form — Quick Reference</h2>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Topic</th><th>What to Do</th><th>Why it Matters</th></tr></thead>
+        <tbody>
+          <tr><td>Choose starting weight</td><td>First 5–6 reps smooth; last 2–3 tough but clean</td><td>Right difficulty locks in form + progress</td></tr>
+          <tr><td>When to increase</td><td>Top reps on all sets → add smallest plate next time</td><td>Progressive overload = growth</td></tr>
+          <tr><td>Tempo</td><td>Lower ~2–3s, lift ~1–2s; no bounce</td><td>Time under tension builds safely</td></tr>
+          <tr><td>Rests</td><td>Compounds 90–120s · Accessories 60–90s</td><td>Recover enough to keep quality reps</td></tr>
+          <tr><td>Form check</td><td>Record 1 set/week for OHP, chest press, pulldown</td><td>What you feel ≠ what you do — video never lies</td></tr>
+          <tr><td>Deload (optional)</td><td>Every 8–10 weeks, reduce weights ~15% for a week</td><td>Prevents burnout; joints happy</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section id="nutrition">
+      <h2>🥗 Nutrition — HK‑Friendly (Target ~120g protein)</h2>
+      <div class="grid two">
+        <div class="card">
+          <h3>Daily Targets</h3>
+          <ul>
+            <li><strong>Protein:</strong> ~120 g/day</li>
+            <li><strong>Calories:</strong> ~maintenance to +200–300 kcal</li>
+            <li><strong>Water:</strong> 2–3 L/day</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Easy Wins</h3>
+          <ul>
+            <li><strong>Lunch:</strong> Cafe de Coral / Fairwood chicken breast set (~47–50 g)</li>
+            <li><strong>Breakfast:</strong> 3 eggs + toast + fruit (~24 g)</li>
+            <li><strong>Snack:</strong> whey scoop (20–25 g) or Greek yogurt (~10 g)</li>
+            <li><strong>Dinner:</strong> rice + lean meat/fish/tofu (25–35 g)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Food</th><th>Protein (approx.)</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr><td>Chicken breast meal set</td><td>~50 g</td><td>Anchor your day around this 🍗</td></tr>
+          <tr><td>Egg (1)</td><td>~6 g</td><td>Cheap & easy add‑on 🥚</td></tr>
+          <tr><td>Whey scoop</td><td>20–25 g</td><td>Use to “close the gap” 🧋</td></tr>
+          <tr><td>Greek yogurt (1 cup)</td><td>~10 g</td><td>Great with banana 🍌</td></tr>
+          <tr><td>Tofu / fish / lean pork</td><td>20–30 g/serving</td><td>Dinner rotation 🍱</td></tr>
+        </tbody>
+      </table></div>
+      <div class="callout warn"><strong>Not cutting:</strong> Don’t run your old 800–1200 kcal play here; you’ll stall recovery & gains.</div>
+    </section>
+
+    <section id="trial">
+      <h2>🧪 Trial‑Day Checklist (first few visits)</h2>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Step</th><th>Action</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Go off‑peak; 5–10 min warm‑up</td><td>Low pressure; body ready</td></tr>
+          <tr><td>2</td><td>Adjust seat/handles; note positions</td><td>Fast setup next time</td></tr>
+          <tr><td>3</td><td>Start light; find “challenging clean” weight</td><td>Protects form/joints</td></tr>
+          <tr><td>4</td><td>Film 1 set of chest press, OHP, pulldown</td><td>See & fix obvious issues 🎥</td></tr>
+          <tr><td>5</td><td>Log it in your phone</td><td>Your “save file” for progress 💾</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section id="etiquette">
+      <h2>🤝 Low‑Drama Gym Etiquette</h2>
+      <div class="grid two">
+        <div class="card">
+          <ul>
+            <li>Wear stuff you can move in; bring a towel; wipe benches.</li>
+            <li>Don’t hog a station scrolling; offer to “work in.”</li>
+            <li>Re‑rack plates & DBs properly.</li>
+            <li>Give people space; no unsolicited coaching.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <ul>
+            <li>Keep the noise reasonable; save theatrics for PR day.</li>
+            <li>Headphones on, head down = universal “I’m training.”</li>
+            <li>Be friendly but focused — you’re here to lift, not linger.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="travel">
+      <h2>✈️ Travel & 🌙 Midnight Notes</h2>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Scenario</th><th>What to Do</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>1‑week trip (Japan)</td><td>Walk a lot; 2× hotel circuits of push‑ups, squats, planks (10–15 min)</td><td>Short break won’t erase gains; resume lighter for 1–2 sessions after</td></tr>
+          <tr><td>Midnight workout</td><td>Use only as backup. Post‑gym wind‑down: shower, dim lights, no doomscrolling</td><td>Intense lifting can delay sleep ~1–2 h</td></tr>
+          <tr><td>Exam week</td><td>Run Full‑Body 2×; 45–60 min; keep protein high</td><td>Consistency beats perfection</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section id="logs">
+      <h2>📝 Copy‑Paste Logs (drop in Notes app)</h2>
+
+      <h3>Push</h3>
+      <pre><button class="copy" data-copy="#log-push">Copy</button><code id="log-push">PUSH — Date: __/__ 
+Chest Press:    __ kg — __/__/__ 
+Overhead Press: __ kg — __/__/__ 
+Lateral Raises: __ kg — __/__/__ 
+Triceps PD:     __ kg — __/__/__ 
+Notes:</code></pre>
+
+      <h3>Pull</h3>
+      <pre><button class="copy" data-copy="#log-pull">Copy</button><code id="log-pull">PULL — Date: __/__ 
+Lat Pulldown:   __ kg — __/__/__ 
+Seated Row:     __ kg — __/__/__ 
+Bicep Curls:    __ kg — __/__/__ 
+DB Shrugs:      __ kg — __/__/__ 
+Face Pulls:     __ kg — __/__/__ 
+Notes:</code></pre>
+
+      <h3>Legs + Core</h3>
+      <pre><button class="copy" data-copy="#log-legs">Copy</button><code id="log-legs">LEGS+CORE — Date: __/__ 
+Leg Press:      __ kg — __/__/__ 
+Seated Leg Curl:__ kg — __/__/__ 
+Calf Raises:    __ kg — __/__/__ 
+Plank:          __ s — __/__/__ 
+Notes:</code></pre>
+
+      <h3>Full‑Body fallback</h3>
+      <pre><button class="copy" data-copy="#log-fb">Copy</button><code id="log-fb">FULL‑BODY — Date: __/__ 
+OHP:            __ kg — __/__/__ 
+Chest Press:    __ kg — __/__/__ 
+Lat Pulldown:   __ kg — __/__/__ 
+Lateral Raises: __ kg — __/__/__ 
+Bicep Curls:    __ kg — __/__/__ 
+Triceps PD:     __ kg — __/__/__ 
+Leg Press:      __ kg — __/__/__ 
+Leg Curl:       __ kg — __/__/__ 
+Face Pulls (opt): __ kg — __/__/__ 
+Notes:</code></pre>
+    </section>
+
+    <section id="faq">
+      <h2>❓ Mini FAQ</h2>
+      <h3>How fast will I see changes?</h3>
+      <p>Strength jumps in weeks; visible shape changes 6–10 weeks. Photos monthly, same lighting.</p>
+      <h3>Do I need cardio?</h3>
+      <p>You bike daily already. Optional light sessions help recovery; don’t overdo.</p>
+      <h3>What if a machine’s different?</h3>
+      <p>Match the motion pattern and cues; note new seat/pin numbers in your log.</p>
+    </section>
+
+    <footer class="small" style="margin-top:40px">
+      Inter font (fallback to system UI). • Updated August 09, 2025
+    </footer>
+  </main>
+</div>
+
+<script>
+// Theme switch with persistence
+const rootHtml = document.documentElement;
+const themeButtons = document.querySelectorAll('.tBtn');
+function setTheme(mode) {
+  rootHtml.setAttribute('data-theme', mode);
+  localStorage.setItem('vg-theme', mode);
+  themeButtons.forEach(b => b.classList.toggle('active', b.dataset.theme === mode));
+}
+const saved = localStorage.getItem('vg-theme') || 'auto';
+setTheme(saved);
+themeButtons.forEach(btn => btn.addEventListener('click', () => setTheme(btn.dataset.theme)));
+
+// Sidebar active link highlight on desktop
+const links = document.querySelectorAll('.toc a');
+const sections = [...links].map(a => document.querySelector(a.getAttribute('href')));
+const onScroll = () => {
+  let idx = 0;
+  for (let i=0;i<sections.length;i++) {
+    if (sections[i].getBoundingClientRect().top - 120 <= 0) idx = i;
+  }
+  links.forEach(a => a.classList.remove('active'));
+  if (links[idx]) links[idx].classList.add('active');
+};
+document.addEventListener('scroll', onScroll);
+
+// Copy buttons
+document.querySelectorAll('.copy').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = document.querySelector(btn.dataset.copy);
+    navigator.clipboard.writeText(target.textContent).then(() => {
+      const old = btn.textContent;
+      btn.textContent = '✅ Copied';
+      setTimeout(() => btn.textContent = old, 1200);
+    });
+  });
+});
+
+// Mobile jump
+const goBtn = document.getElementById('go');
+if (goBtn) {
+  goBtn.addEventListener('click', () => {
+    const sel = document.querySelector('.jump');
+    const target = document.querySelector(sel.value);
+    if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+}
+</script>
+</body>
+</html>
